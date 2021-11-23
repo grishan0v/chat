@@ -14,8 +14,8 @@ class LoginViewModel : BaseViewModel() {
     private val _isLoggedInEvent = MutableLiveData<Event<FirebaseUser>>()
 
     val isLoggedInEvent: LiveData<Event<FirebaseUser>> = _isLoggedInEvent
-    val emailText = MutableLiveData<String>()
-    val passwordText = MutableLiveData<String>()
+    val emailText = MutableLiveData<String>() //data-binding
+    val passwordText = MutableLiveData<String>() //data-binding
     val isLoggingIn = MutableLiveData<Boolean>()
 
     private fun login() {
