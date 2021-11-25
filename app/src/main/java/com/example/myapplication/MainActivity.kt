@@ -56,6 +56,11 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    fun showGlobalProgressBar(show: Boolean) {
+        if (show) binding.appBarMain.mainProgressBar.visibility = View.VISIBLE
+        else binding.appBarMain.mainProgressBar.visibility = View.GONE
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
