@@ -13,10 +13,18 @@
 
         <action
             android:id="@+id/action_start_to_new_account"
-            app:destination="@+id/nav_new_account"/>
+            app:destination="@+id/nav_new_account"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"/>
         <action
             android:id="@+id/action_start_to_login"
-            app:destination="@+id/nav_login"/>
+            app:destination="@+id/nav_login"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"/>
         <action
             android:id="@+id/action_start_to_chats"
             app:destination="@+id/nav_chats"/>
