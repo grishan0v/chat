@@ -15,24 +15,17 @@ import com.example.myapplication.databinding.FragmentLoginBinding
 import com.example.myapplication.utils.SharedPreferencesUtil
 import com.example.myapplication.utils.forceHideKeyboard
 import com.example.myapplication.utils.showSnackBar
+import com.example.myapplication.utils.viewBinding
 
-class LoginFragment : Fragment() {
-
+class LoginFragment : Fragment(R.layout.fragment_login) {
     private val viewModel by viewModels<LoginViewModel>()
-    private lateinit var binding: FragmentLoginBinding
+    private val binding by viewBinding(FragmentLoginBinding::bind)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
-            .apply { viewmodel = viewModel }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.apply { viewmodel = viewModel }
         binding.lifecycleOwner = this.viewLifecycleOwner
         setHasOptionsMenu(true)
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         setupObservers()
     }
 
@@ -47,8 +40,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupObservers() {
-//        viewModel.dataLoading.observe(viewLifecycleOwner,
-//            EventObserver { (activity as MainActivity).showGlobalProgressBar(it) })
+        viewModel.dataLoading.observe(viewLifecycleOwner, EventObserver {
+            (activity as MainActivity).showGlobalProgressBar(it)
+        })
 
         viewModel.snackBarText.observe(viewLifecycleOwner,
             EventObserver { text ->

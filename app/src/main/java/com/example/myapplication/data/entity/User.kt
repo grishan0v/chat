@@ -1,5 +1,6 @@
 package com.example.myapplication.data.entity
 
+import androidx.databinding.BindingAdapter
 import com.google.firebase.database.PropertyName
 
 data class User(

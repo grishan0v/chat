@@ -1,10 +1,10 @@
 package com.example.myapplication.utils
 
+import com.google.android.material.snackbar.Snackbar
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.example.myapplication.R
-import com.google.android.material.snackbar.Snackbar
 
 fun View.forceHideKeyboard() {
     val inputManager: InputMethodManager =
@@ -13,5 +13,5 @@ fun View.forceHideKeyboard() {
 }
 
 fun View.showSnackBar(text: String) {
-    Snackbar.make(this.rootView.findViewById(R.id.container), text, Snackbar.LENGTH_SHORT).show()
+    Snackbar.make(this.rootView.findViewById(R.id.drawer_layout), text, Snackbar.LENGTH_SHORT).show()
 }

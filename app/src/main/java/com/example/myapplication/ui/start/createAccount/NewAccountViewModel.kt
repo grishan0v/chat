@@ -9,11 +9,11 @@ import com.example.myapplication.ui.BaseViewModel
 import com.example.myapplication.utils.isEmailValid
 import com.example.myapplication.utils.isTextValid
 import com.google.firebase.auth.FirebaseUser
-import com.example.myapplication.data.Result
+import com.example.myapplication.data.MyResult
 import com.example.myapplication.data.entity.User
 import com.example.myapplication.data.repository.DatabaseRepository
 
-class NewAccountViewModel: BaseViewModel() {
+class NewAccountViewModel : BaseViewModel() {
     private val dbRepository = DatabaseRepository()
     private val authRepository = AuthRepository()
     private val _isCreatedEvent = MutableLiveData<Event<FirebaseUser>>()
@@ -26,22 +26,18 @@ class NewAccountViewModel: BaseViewModel() {
 
     private fun createAccount() {
         isCreatingAccount.value = true
-        val createUser = UserData(
-            displayNameText.value!!,
-            emailText.value!!,
-            passwordText.value!!
-        )
+        val createUser = UserData(displayNameText.value!!, emailText.value!!, passwordText.value!!)
 
-        authRepository.createUser(createUser) { result: Result<FirebaseUser> ->
-            onResult(null, result)
-            if (result is Result.Success) {
-                _isCreatedEvent.value = Event(result.data!!)
+        authRepository.createUser(createUser) { myResult: MyResult<FirebaseUser> ->
+            onResult(null, myResult)
+            if (myResult is MyResult.Success) {
+                _isCreatedEvent.value = Event(myResult.data!!)
                 dbRepository.updateNewUser(User().apply {
-                    info.id = result.data.uid
+                    info.id = myResult.data.uid
                     info.displayName = createUser.displayName
                 })
             }
-            if (result is Result.Success || result is Result.Error) isCreatingAccount.value = false
+            if (myResult is MyResult.Success || myResult is MyResult.Error) isCreatingAccount.value = false
         }
     }
 
@@ -59,7 +55,6 @@ class NewAccountViewModel: BaseViewModel() {
             mSnackBarText.value = Event("Password is too short")
             return
         }
-
         createAccount()
     }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.data.Event
-import com.example.myapplication.data.Result
+import com.example.myapplication.data.MyResult
 
 abstract class BaseViewModel: ViewModel() {
     protected val mSnackBarText = MutableLiveData<Event<String>>()
@@ -13,19 +13,19 @@ abstract class BaseViewModel: ViewModel() {
     private val mDataLoading = MutableLiveData<Event<Boolean>>()
     val dataLoading: LiveData<Event<Boolean>> = mDataLoading
 
-    protected fun <T> onResult(mutableLiveData: MutableLiveData<T>? = null, result: Result<T>) {
-        when (result) {
-            is Result.Loading -> mDataLoading.value = Event(true)
+    protected fun <T> onResult(mutableLiveData: MutableLiveData<T>? = null, myResult: MyResult<T>) {
+        when (myResult) {
+            is MyResult.Loading -> mDataLoading.value = Event(true)
 
-            is Result.Error -> {
+            is MyResult.Error -> {
                 mDataLoading.value = Event(false)
-                result.message?.let { mSnackBarText.value = Event(it) }
+                myResult.message?.let { mSnackBarText.value = Event(it) }
             }
 
-            is Result.Success -> {
+            is MyResult.Success -> {
                 mDataLoading.value = Event(false)
-                result.data?.let { mutableLiveData?.value = it }
-                result.message?.let { mSnackBarText.value = Event(it) }
+                myResult.data?.let { mutableLiveData?.value = it }
+                myResult.message?.let { mSnackBarText.value = Event(it) }
             }
         }
     }

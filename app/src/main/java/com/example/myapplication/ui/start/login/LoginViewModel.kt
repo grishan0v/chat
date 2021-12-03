@@ -2,15 +2,17 @@ package com.example.myapplication.ui.start.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseUser
 import com.example.myapplication.data.Event
+import com.example.myapplication.data.MyResult
 import com.example.myapplication.data.dto.LoginData
+import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.ui.BaseViewModel
 import com.example.myapplication.utils.isEmailValid
 import com.example.myapplication.utils.isTextValid
-import com.google.firebase.auth.FirebaseUser
 
 class LoginViewModel : BaseViewModel() {
-//    private val authRepository = AuthRepository()
+    private val authRepository = AuthRepository()
     private val _isLoggedInEvent = MutableLiveData<Event<FirebaseUser>>()
 
     val isLoggedInEvent: LiveData<Event<FirebaseUser>> = _isLoggedInEvent
@@ -22,7 +24,13 @@ class LoginViewModel : BaseViewModel() {
         isLoggingIn.value = true
         val login = LoginData(emailText.value!!, passwordText.value!!)
 
-//        authRepository.loginUser(login) { }
+        authRepository.loginUser(login) { myResult: MyResult<FirebaseUser> ->
+            onResult(null, myResult)
+            when {
+                myResult is MyResult.Success -> _isLoggedInEvent.value = Event(myResult.data!!)
+                (myResult is MyResult.Success || myResult is MyResult.Error) -> isLoggingIn.value = false
+            }
+        }
     }
 
     fun loginPressed() {
@@ -34,7 +42,6 @@ class LoginViewModel : BaseViewModel() {
             mSnackBarText.value = Event("Password is too short")
             return
         }
-
         login()
     }
 }
