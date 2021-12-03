@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_account_circle.xml" value="0.33055555555555555" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.33055555555555555" />
         <entry key="app/src/main/res/drawable/ic_baseline_settings.xml" value="0.33055555555555555" />
         <entry key="app/src/main/res/drawable/ic_chats_24.xml" value="0.33055555555555555" />

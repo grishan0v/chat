@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_start -> binding.appBarMain.fab.visibility = View.GONE
                 R.id.nav_login -> binding.appBarMain.fab.visibility = View.GONE
                 R.id.nav_new_account -> binding.appBarMain.fab.visibility = View.GONE
+                R.id.nav_settings -> binding.appBarMain.fab.visibility = View.GONE
                 else -> binding.appBarMain.fab.visibility = View.VISIBLE
             }
         }

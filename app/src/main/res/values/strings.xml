@@ -21,4 +21,8 @@
     <string name="create_account">Create account</string>
     <string name="name">Name</string>
     <string name="create">Create</string>
+    <string name="logout">Logout</string>
+    <string name="user_image">user_image</string>
+    <string name="change_image">change image</string>
+    <string name="change_status">change status</string>
 </resources>

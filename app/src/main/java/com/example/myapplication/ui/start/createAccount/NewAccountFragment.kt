@@ -15,24 +15,17 @@ import com.example.myapplication.databinding.FragmentNewAccountBinding
 import com.example.myapplication.utils.SharedPreferencesUtil
 import com.example.myapplication.utils.forceHideKeyboard
 import com.example.myapplication.utils.showSnackBar
+import com.example.myapplication.utils.viewBinding
 
-class NewAccountFragment : Fragment() {
-
+class NewAccountFragment : Fragment(R.layout.fragment_new_account) {
     private val viewModel by viewModels<NewAccountViewModel>()
-    private lateinit var viewDataBinding: FragmentNewAccountBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        viewDataBinding = FragmentNewAccountBinding.inflate(inflater, container, false)
-            .apply { viewmodel = viewModel }
-        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
-        setHasOptionsMenu(true)
-        return viewDataBinding.root
-    }
+    private val binding by viewBinding(FragmentNewAccountBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.apply { viewmodel = viewModel }
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        setHasOptionsMenu(true)
         setupObservers()
     }
 
