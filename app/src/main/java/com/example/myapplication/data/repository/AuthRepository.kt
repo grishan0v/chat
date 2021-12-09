@@ -1,11 +1,11 @@
 package com.example.myapplication.data.repository
 
-import com.example.myapplication.data.dto.LoginData
+import com.example.myapplication.core.dto.LoginData
 import com.example.myapplication.data.firebase.FirebaseAuthSource
 import com.example.myapplication.data.firebase.FirebaseAuthStateObserver
 import com.google.firebase.auth.FirebaseUser
 import com.example.myapplication.data.MyResult
-import com.example.myapplication.data.dto.UserData
+import com.example.myapplication.core.dto.UserData
 
 class AuthRepository {
     private val firebaseAuthService = FirebaseAuthSource()

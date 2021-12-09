@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
 import com.example.myapplication.data.Event
 import com.example.myapplication.data.MyResult
-import com.example.myapplication.data.dto.LoginData
+import com.example.myapplication.core.dto.LoginData
 import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.ui.BaseViewModel
-import com.example.myapplication.utils.isEmailValid
-import com.example.myapplication.utils.isTextValid
+import com.example.myapplication.core.utils.isEmailValid
+import com.example.myapplication.core.utils.isTextValid
 
 class LoginViewModel : BaseViewModel() {
     private val authRepository = AuthRepository()

@@ -3,7 +3,7 @@ package com.example.myapplication.data.firebase
 import com.example.myapplication.data.entity.User
 import com.google.firebase.database.*
 import com.example.myapplication.data.MyResult
-import com.example.myapplication.utils.wrapSnapshotToClass
+import com.example.myapplication.core.utils.wrapSnapshotToClass
 
 
 class FirebaseDataSource {
@@ -23,7 +23,12 @@ class FirebaseDataSource {
                 if (wrapSnapshotToClass(resultClassName, snapshot) == null) {
                     b.invoke(MyResult.Error(message = snapshot.key))
                 } else {
-                    b.invoke(MyResult.Success(wrapSnapshotToClass(resultClassName, snapshot)))
+                    b.invoke(MyResult.Success(
+                        wrapSnapshotToClass(
+                            resultClassName,
+                            snapshot
+                        )
+                    ))
                 }
             }
         })

@@ -1,4 +1,4 @@
-package com.example.myapplication.utils
+package com.example.myapplication.core
 
 import com.google.android.material.snackbar.Snackbar
 import android.content.Context

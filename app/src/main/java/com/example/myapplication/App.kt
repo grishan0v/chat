@@ -1,7 +1,7 @@
 package com.example.myapplication
 
 import android.app.Application
-import com.example.myapplication.utils.SharedPreferencesUtil
+import com.example.myapplication.core.utils.SharedPreferencesUtil
 
 class App : Application() {
 

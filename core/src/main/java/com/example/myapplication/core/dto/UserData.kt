@@ -1,4 +1,4 @@
-package com.example.myapplication.data.dto
+package com.example.myapplication.core.dto
 
 data class UserData(
     var displayName: String = "",

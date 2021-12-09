@@ -3,11 +3,11 @@ package com.example.myapplication.ui.start.createAccount
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.myapplication.data.Event
-import com.example.myapplication.data.dto.UserData
+import com.example.myapplication.core.dto.UserData
 import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.ui.BaseViewModel
-import com.example.myapplication.utils.isEmailValid
-import com.example.myapplication.utils.isTextValid
+import com.example.myapplication.core.utils.isEmailValid
+import com.example.myapplication.core.utils.isTextValid
 import com.google.firebase.auth.FirebaseUser
 import com.example.myapplication.data.MyResult
 import com.example.myapplication.data.entity.User

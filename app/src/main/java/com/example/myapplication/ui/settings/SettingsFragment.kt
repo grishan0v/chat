@@ -4,10 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -17,9 +15,9 @@ import com.example.myapplication.App
 import com.example.myapplication.R
 import com.example.myapplication.data.EventObserver
 import com.example.myapplication.databinding.FragmentSettingsBinding
-import com.example.myapplication.utils.SharedPreferencesUtil
-import com.example.myapplication.utils.convertFileToByteArray
-import com.example.myapplication.utils.viewBinding
+import com.example.myapplication.core.utils.SharedPreferencesUtil
+import com.example.myapplication.core.utils.convertFileToByteArray
+import com.example.myapplication.core.utils.viewBinding
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val viewModel: SettingsViewModel by viewModels { SettingsViewModelFactory(App.myUserID) }

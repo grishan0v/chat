@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.data.EventObserver
 import com.example.myapplication.databinding.FragmentStartBinding
-import com.example.myapplication.utils.SharedPreferencesUtil
+import com.example.myapplication.core.utils.SharedPreferencesUtil
 
 class StartFragment : Fragment() {
     private val viewModel by viewModels<StartViewModel>()

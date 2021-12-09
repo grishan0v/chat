@@ -1,4 +1,4 @@
-package com.example.myapplication.utils
+package com.example.myapplication.core.utils
 
 import com.google.firebase.database.DataSnapshot
 

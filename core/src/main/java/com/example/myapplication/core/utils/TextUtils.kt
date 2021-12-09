@@ -1,4 +1,4 @@
-package com.example.myapplication.utils
+package com.example.myapplication.core.utils
 
 fun isEmailValid(email: CharSequence): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
