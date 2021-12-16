@@ -1,10 +1,31 @@
 plugins {
+    id 'io.gitlab.arturbosch.detekt' version '1.19.0'
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
     id 'kotlin-kapt'
 }
+
+detekt {
+    toolVersion = "1.19.0"
+    config = files("config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+}
+
+tasks.named("detekt").configure {
+    reports {
+        xml.required.set(true)
+        xml.outputLocation.set(file("build/reports/detekt.xml"))
+
+        html.required.set(true)
+        html.outputLocation.set(file("build/reports/detekt.html"))
+
+        txt.required.set(true)
+        txt.outputLocation.set(file("build/reports/detekt.txt"))
+    }
+}
+
 
 android {
     compileSdk 31
@@ -61,4 +82,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.0.3'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.google.firebase:firebase-storage:20.0.0'
+
+    compileOnly "com.android.tools.lint:lint-api:30.0.4"
+    compileOnly "com.android.tools.lint:lint-checks:30.0.4"
 }
