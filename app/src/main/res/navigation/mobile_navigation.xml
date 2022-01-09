@@ -27,7 +27,8 @@
             app:popExitAnim="@anim/exit_to_right"/>
         <action
             android:id="@+id/action_start_to_chats"
-            app:destination="@+id/nav_chats"/>
+            app:destination="@+id/nav_chats"
+            app:launchSingleTop="true"/>
     </fragment>
 
     <fragment
@@ -64,8 +65,8 @@
 
         <action
             android:id="@+id/action_settings_to_start"
-            app:destination="@+id/nav_start"
-            app:popUpTo="@layout/fragment_start"
+            app:destination="@id/nav_start"
+            app:popUpTo="@id/nav_start"
             app:popUpToInclusive="true"/>
     </fragment>
 
@@ -73,11 +74,42 @@
         android:id="@+id/nav_chats"
         android:name="com.example.myapplication.ui.chats.ChatsFragment"
         android:label="@string/menu_chats"
-        tools:layout="@layout/fragment_chats" />
+        tools:layout="@layout/fragment_chats">
+
+        <action
+            android:id="@+id/action_chats_to_chat"
+            app:destination="@id/nav_chat" />
+        <action
+            android:id="@+id/action_chats_to_users"
+            app:destination="@+id/nav_users"/>
+    </fragment>
 
     <fragment
         android:id="@+id/nav_groups"
         android:name="com.example.myapplication.ui.groups.GroupsFragment"
         android:label="@string/menu_groups"
         tools:layout="@layout/fragment_groups" />
+
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.example.myapplication.ui.chat.ChatFragment"
+        android:label="@string/title_chat"
+        tools:layout="@layout/fragment_chat"/>
+
+    <fragment
+        android:id="@+id/nav_users"
+        android:name="com.example.myapplication.ui.users.UsersFragment"
+        android:label="@string/title_users"
+        tools:layout="@layout/fragment_users">
+        <action
+            android:id="@+id/action_users_to_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.myapplication.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
 </navigation>
