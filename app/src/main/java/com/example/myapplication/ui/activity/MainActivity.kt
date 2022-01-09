@@ -1,24 +1,34 @@
-package com.example.myapplication
+package com.example.myapplication.ui.activity
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.ViewUtils
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.databinding.ContentMainBinding
+import com.example.myapplication.databinding.NavHeaderMainBinding
+import com.example.myapplication.databinding.ToolbarAddonChatBinding
+import com.google.android.material.navigation.NavigationView
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,16 +37,19 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_chats, R.id.nav_groups, R.id.nav_settings), drawerLayout)
+            setOf(
+                R.id.nav_chats,
+                R.id.nav_groups,
+                R.id.nav_settings,
+                R.id.nav_users,
+                R.id.nav_start
+            ), drawerLayout
+        )
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -44,17 +57,40 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_login -> binding.appBarMain.fab.visibility = View.GONE
                 R.id.nav_new_account -> binding.appBarMain.fab.visibility = View.GONE
                 R.id.nav_settings -> binding.appBarMain.fab.visibility = View.GONE
+                R.id.nav_chat -> binding.appBarMain.fab.visibility = View.GONE
+                R.id.nav_profile -> binding.appBarMain.fab.visibility = View.GONE
+                R.id.nav_users -> binding.appBarMain.fab.visibility = View.GONE
                 else -> binding.appBarMain.fab.visibility = View.VISIBLE
             }
         }
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        binding.appBarMain.fab.setOnClickListener { view ->
+            navController.navigate(R.id.action_chats_to_users)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupViewModelObservers()
+    }
+
+    //TODO переписать на databinding
+    private fun setupViewModelObservers() {
+        val headerLayout = binding.navView.getHeaderView(0)
+        viewModel.userInfo.observe(this, {
+            headerLayout.findViewById<TextView>(R.id.profileName).text = it.displayName
+            headerLayout.findViewById<TextView>(R.id.profileStatus).text = it.status
+            Picasso.get().load(it.profileImageUrl).error(R.drawable.ic_baseline_account_circle)
+                    .into(findViewById<ImageView>(R.id.profileImage))
+        })
     }
 
     fun showGlobalProgressBar(show: Boolean) {

@@ -11,23 +11,17 @@ import com.example.myapplication.R
 import com.example.myapplication.data.EventObserver
 import com.example.myapplication.databinding.FragmentStartBinding
 import com.example.myapplication.utils.SharedPreferencesUtil
+import com.example.myapplication.utils.viewBinding
 
-class StartFragment : Fragment() {
+class StartFragment : Fragment(R.layout.fragment_start) {
     private val viewModel by viewModels<StartViewModel>()
-    private lateinit var binding: FragmentStartBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentStartBinding.inflate(inflater, container, false)
-            .apply { viewmodel = viewModel }
-        binding.lifecycleOwner = this.viewLifecycleOwner
-        setHasOptionsMenu(false)
-        return binding.root
-    }
+    private val binding by viewBinding(FragmentStartBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.apply { viewmodel = viewModel }
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        setHasOptionsMenu(false)
         setupObservers()
 
         if (userIsAlreadyLoggedIn()) {

@@ -1,23 +1,31 @@
-package com.example.myapplication.ui.start.login
+package com.example.myapplication.ui.profile
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.MenuItem
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.myapplication.App
 import com.example.myapplication.ui.activity.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.data.EventObserver
-import com.example.myapplication.databinding.FragmentLoginBinding
-import com.example.myapplication.utils.SharedPreferencesUtil
+import com.example.myapplication.databinding.FragmentProfileBinding
 import com.example.myapplication.utils.forceHideKeyboard
 import com.example.myapplication.utils.showSnackBar
 import com.example.myapplication.utils.viewBinding
 
-class LoginFragment : Fragment(R.layout.fragment_login) {
-    private val viewModel by viewModels<LoginViewModel>()
-    private val binding by viewBinding(FragmentLoginBinding::bind)
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
+
+    companion object {
+        const val ARGS_KEY_USER_ID = "bundle_user_id"
+    }
+
+    private val viewModel: ProfileViewModel by viewModels {
+        ProfileViewModelFactory(App.myUserID, requireArguments().getString(ARGS_KEY_USER_ID)!!)
+    }
+
+    private val binding by viewBinding(FragmentProfileBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,23 +46,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun setupObservers() {
-        viewModel.dataLoading.observe(viewLifecycleOwner, EventObserver {
-            (activity as MainActivity).showGlobalProgressBar(it)
-        })
+        viewModel.dataLoading.observe(viewLifecycleOwner,
+            EventObserver { (activity as MainActivity).showGlobalProgressBar(it) })
 
         viewModel.snackBarText.observe(viewLifecycleOwner,
             EventObserver { text ->
                 view?.showSnackBar(text)
                 view?.forceHideKeyboard()
             })
-
-        viewModel.isLoggedInEvent.observe(viewLifecycleOwner, EventObserver {
-            SharedPreferencesUtil.saveUserID(requireContext(), it.uid)
-            navigateToChats()
-        })
-    }
-
-    private fun navigateToChats() {
-        findNavController().navigate(R.id.action_login_to_chats)
     }
 }
