@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,9 +17,11 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.myapplication.R
+import com.example.myapplication.data.firebase.FirebaseDataSource
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.databinding.NavHeaderMainBinding
 import com.example.myapplication.databinding.ToolbarAddonChatBinding
+import com.example.myapplication.utils.SharedPreferencesUtil
 import com.google.android.material.navigation.NavigationView
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
@@ -69,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         binding.appBarMain.fab.setOnClickListener { view ->
             navController.navigate(R.id.action_chats_to_users)
         }
+        observeUserInfo()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -77,19 +81,19 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onResume() {
-        super.onResume()
-        setupViewModelObservers()
-    }
-
     //TODO переписать на databinding
-    private fun setupViewModelObservers() {
+    private fun observeUserInfo() {
         val headerLayout = binding.navView.getHeaderView(0)
         viewModel.userInfo.observe(this, {
             headerLayout.findViewById<TextView>(R.id.profileName).text = it.displayName
             headerLayout.findViewById<TextView>(R.id.profileStatus).text = it.status
-            Picasso.get().load(it.profileImageUrl).error(R.drawable.ic_baseline_account_circle)
-                    .into(findViewById<ImageView>(R.id.profileImage))
+            val profileImage = findViewById<ImageView>(R.id.profileImage)
+
+            when (it.profileImageUrl) {
+                "" -> profileImage.setImageResource(R.drawable.ic_baseline_account_circle)
+                else -> Picasso.get().load(it.profileImageUrl)
+                    .error(R.drawable.ic_baseline_account_circle).into(profileImage)
+            }
         })
     }
 
@@ -101,5 +105,16 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        FirebaseDataSource.dbInstance.goOffline()
+    }
+
+    override fun onResume() {
+        FirebaseDataSource.dbInstance.goOnline()
+        super.onResume()
     }
 }
