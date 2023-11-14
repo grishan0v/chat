@@ -6,7 +6,7 @@
   <img src="https://raw.githubusercontent.com/Grishan0v/chat/dev/readme_resources/promo3.png" width=30% height=30%>
 </p>
 
-Приложение для объмена сообщениями на основе сервисов Firebase
+Приложение для обмена сообщениями на основе сервисов Firebase
 
 Цель проекта: применить на практике возможности, предоставляемые Firebase и Jetpack Navigation Component.
 
